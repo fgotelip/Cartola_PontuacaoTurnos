@@ -102,7 +102,7 @@ try:
     pontuacao_lider = df_exibicao['pontuacao'].iloc[0]
     
     # Cria a nova coluna subtraindo a pontuação de cada time da pontuação do líder
-    df_exibicao['diferença pro líder'] = (pontuacao_lider - df_exibicao['pontuacao']).round(2)
+    df_exibicao['diferença_lider'] = (pontuacao_lider - df_exibicao['pontuacao']).round(2)
 
     # Ajusta o índice para servir como "Posição" no campeonato (começando do 1)
     df_exibicao.index = df_exibicao.index + 1
@@ -114,7 +114,7 @@ try:
         y=alt.Y('time:N', sort='-x', title='Time'), 
         color=alt.Color('time:N', legend=None),
         # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=['Posição', 'Time', 'Pontuação', 'Diferença para o Líder']
+        tooltip=['Posição', 'time', 'pontuacao', 'diferença_lider']
     ).properties(height=400)
     
     st.altair_chart(grafico, use_container_width=True)

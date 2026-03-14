@@ -32,7 +32,7 @@ def carregar_dados():
                         pontos -= atleta.pontos * 0.5
                 
                 # Calcula a qual turno essa rodada pertence (considerando 7 rodadas por turno)
-                turno = ((rodada - 1) // 2) + 1
+                turno = ((rodada - 1) // 7) + 1
                 
                 dados_rodadas.append({
                     "Time": time.info.slug,
@@ -109,7 +109,7 @@ try:
         # Cria o Gráfico Altair
         grafico_evolucao = alt.Chart(df_grafico).mark_line(point=True).encode(
             x=alt.X('Rodada:O', title='Rodada'), 
-            y=alt.Y('Pontuação Acumulada:Q', title='Pontuação Acumulada', scale=alt.Scale(zero=False)),
+            y=alt.Y('Pontuação Acumulada:Q', title='Pontuação Acumulada', scale=alt.Scale(zero=True)),
             color=alt.Color('Time:N', title='Time'),
             # No tooltip, adicionei também a pontuação que ele fez só naquela rodada específica!
             tooltip=['Time', 'Rodada', 'Pontuação Acumulada', alt.Tooltip('Pontos:Q', title='Pontos na Rodada')]

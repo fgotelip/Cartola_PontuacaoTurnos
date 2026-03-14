@@ -1,0 +1,4 @@
+cartolafc
+pandas
+streamlit
+altair

@@ -100,30 +100,21 @@ try:
         st.dataframe(df_tabela, use_container_width=True)
 
         # ==========================================
-        # 2. GRÁFICO DE EVOLUÇÃO (LINHAS) COM ZOOM
+        # 2. GRÁFICO DE EVOLUÇÃO (LINHAS)
         # ==========================================
         # Ordena por rodada e calcula a "Soma Acumulada" (cumsum)
         df_grafico = df_filtrado.sort_values(by=['Time', 'Rodada'])
         df_grafico['Pontuação Acumulada'] = df_grafico.groupby('Time')['Pontos'].cumsum().round(2)
 
-        # --- NOVIDADE: Descobre os limites para dar um "zoom" perfeito ---
-        # Pega a menor e a maior pontuação acumulada do momento e dá uma margem de 10 pontos
-        min_y = df_grafico['Pontuação Acumulada'].min() - 10
-        max_y = df_grafico['Pontuação Acumulada'].max() + 10
-
         # Cria o Gráfico Altair
         grafico_evolucao = alt.Chart(df_grafico).mark_line(point=True).encode(
             x=alt.X('Rodada:O', title='Rodada'), 
-            y=alt.Y(
-                'Pontuação Acumulada:Q', 
-                title='Pontuação Acumulada', 
-                # Força o eixo Y a ter um tamanho bem específico, focado nas linhas
-                scale=alt.Scale(domain=[min_y, max_y])
-            ),
+            y=alt.Y('Pontuação Acumulada:Q', title='Pontuação Acumulada', scale=alt.Scale(zero=False)),
             color=alt.Color('Time:N', title='Time'),
+            # No tooltip, adicionei também a pontuação que ele fez só naquela rodada específica!
             tooltip=['Time', 'Rodada', 'Pontuação Acumulada', alt.Tooltip('Pontos:Q', title='Pontos na Rodada')]
         ).properties(
-            height=600, # --- NOVIDADE: Aumentei para 600 para esticar as linhas fisicamente ---
+            height=400,
             title="Evolução da Pontuação Acumulada"
         ).interactive() 
         

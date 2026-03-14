@@ -100,7 +100,7 @@ try:
         st.dataframe(df_tabela, use_container_width=True)
 
         # ==========================================
-        # 2. GRÁFICO DE EVOLUÇÃO (LINHAS)
+        # 2. GRÁFICO DE EVOLUÇÃO (LINHAS) - ESCALA LOGARÍTMICA
         # ==========================================
         # Ordena por rodada e calcula a "Soma Acumulada" (cumsum)
         df_grafico = df_filtrado.sort_values(by=['Time', 'Rodada'])
@@ -108,14 +108,18 @@ try:
 
         # Cria o Gráfico Altair
         grafico_evolucao = alt.Chart(df_grafico).mark_line(point=True).encode(
-            y=alt.Y('Rodada:O', title='Rodada'), 
-            x=alt.X('Pontuação Acumulada:Q', title='Pontuação Acumulada', scale=alt.Scale(zero=False)),
+            x=alt.X('Rodada:O', title='Rodada'), 
+            y=alt.Y(
+                'Pontuação Acumulada:Q', 
+                title='Pontuação Acumulada', 
+                # --- NOVIDADE: Definindo a escala como logarítmica ---
+                scale=alt.Scale(type='log')
+            ),
             color=alt.Color('Time:N', title='Time'),
-            # No tooltip, adicionei também a pontuação que ele fez só naquela rodada específica!
             tooltip=['Time', 'Rodada', 'Pontuação Acumulada', alt.Tooltip('Pontos:Q', title='Pontos na Rodada')]
         ).properties(
-            height=400,
-            title="Evolução da Pontuação Acumulada"
+            height=600, 
+            title="Evolução da Pontuação Acumulada (Escala Logarítmica)"
         ).interactive() 
         
         st.altair_chart(grafico_evolucao, use_container_width=True)

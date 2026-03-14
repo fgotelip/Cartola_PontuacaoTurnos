@@ -56,7 +56,7 @@ def carregar_dados():
     id_times = [29674391,14156535,12039729,25577506,25330326,49127596,8812795,24326206]
     rodada_atual = cartola.mercado().rodada_atual
     qtd_rodadas = 38
-    qtd_rodadas_por_turno = 2
+    qtd_rodadas_por_turno = 7
 
     pontuacoes = gera_pontuacoes_por_turno(id_times,rodada_atual,qtd_rodadas,qtd_rodadas_por_turno)
     df = pd.DataFrame(pontuacoes)

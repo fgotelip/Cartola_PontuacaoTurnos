@@ -1,4 +1,4 @@
-cartolafc
+Python-CartolaFC
 pandas
 streamlit
 altair

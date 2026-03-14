@@ -87,12 +87,22 @@ try:
         st.subheader(f"📊 Classificação - Turno {turno_selecionado}")
         # Filtra o DataFrame apenas para o turno escolhido
         df_exibicao = df_turnos[df_turnos['turno'] == turno_selecionado]
+        
+        # Remove a coluna 'turno' para limpar a tabela
+        df_exibicao = df_exibicao.drop(columns=['turno'])
 
     # Ordena a pontuação em ordem decrescente (do maior para o menor)
     df_exibicao = df_exibicao.sort_values(by="pontuacao", ascending=False).reset_index(drop=True)
     
     # Arredonda a pontuação para 2 casas decimais para ficar mais limpo
     df_exibicao['pontuacao'] = df_exibicao['pontuacao'].round(2)
+
+    # --- NOVIDADE: Calcula a diferença para o líder ---
+    # Como os dados já estão ordenados, o líder é a primeira linha (índice 0)
+    pontuacao_lider = df_exibicao['pontuacao'].iloc[0]
+    
+    # Cria a nova coluna subtraindo a pontuação de cada time da pontuação do líder
+    df_exibicao['diferença pro líder'] = (pontuacao_lider - df_exibicao['pontuacao']).round(2)
 
     # Ajusta o índice para servir como "Posição" no campeonato (começando do 1)
     df_exibicao.index = df_exibicao.index + 1
@@ -101,9 +111,10 @@ try:
     # 1. Mostrar Gráfico de Barras ordenado
     grafico = alt.Chart(df_exibicao.reset_index()).mark_bar().encode(
         x=alt.X('pontuacao:Q', title='Pontuação'),
-        y=alt.Y('time:N', sort='-x', title='Time'), # sort='-x' garante que o gráfico siga a ordem decrescente
+        y=alt.Y('time:N', sort='-x', title='Time'), 
         color=alt.Color('time:N', legend=None),
-        tooltip=['Posição', 'time', 'pontuacao']
+        # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
+        tooltip=['Posição', 'time', 'pontuacao', 'diferença pro líder']
     ).properties(height=400)
     
     st.altair_chart(grafico, use_container_width=True)

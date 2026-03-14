@@ -4,9 +4,9 @@ import pandas as pd
 import altair as alt
 
 # Configuração da página para ficar bonita no celular
-st.set_page_config(page_title="Dashboard Cartola", layout="centered", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Cartola Turnos", layout="centered", initial_sidebar_state="collapsed")
 
-st.title("🏆 Dashboard Cartola FC - Turnos")
+st.title("🏆 AT NIGHT'S LEAGUE - TURNOS")
 
 # O st.cache_data evita que o app fique consultando a API a cada clique, guardando os dados por 1 hora.
 # O botão "Atualizar" no final do app limpa esse cache e força a busca de novos dados.
@@ -114,7 +114,7 @@ try:
         y=alt.Y('time:N', sort='-x', title='Time'), 
         color=alt.Color('time:N', legend=None),
         # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=['Posição', 'time', 'pontuacao', 'diferença pro líder']
+        tooltip=['Posição', 'Time', 'Pontuação', 'Diferença para o Líder']
     ).properties(height=400)
     
     st.altair_chart(grafico, use_container_width=True)

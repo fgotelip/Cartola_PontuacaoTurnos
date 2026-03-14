@@ -114,21 +114,23 @@ try:
         'diferença_lider': 'Diferença para o Líder' # Ajuste aqui se a sua coluna se chamar 'diferença pro líder'
     })
 
-    # 1. Mostrar Gráfico de Barras ordenado
-    grafico = alt.Chart(df_exibicao.reset_index()).mark_bar().encode(
-        x=alt.X('Pontuação:Q', title='Pontuação'),
-        y=alt.Y('Time:N', sort='-x', title='Time'), 
-        color=alt.Color('Time:N', legend=None),
-        # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=['Posição', 'Time', 'Pontuação', 'Diferença para o Líder']
-    ).properties(height=400)
-    
-    st.altair_chart(grafico, use_container_width=True)
-
-    # 2. Mostrar Tabela de Classificação
+    # 1. Mostrar Tabela de Classificação
     st.write("📋 **Tabela de Classificação**")
 
     st.dataframe(df_exibicao, use_container_width=True)
+
+    # 2. Mostrar Gráfico de Linhas: Pontuação Acumulada por Rodada
+    grafico_evolucao = alt.Chart(df_exibicao).mark_line(point=True).encode(
+        x=alt.X('Rodada:O', title='Rodada'), # :O trata a rodada como ordem (1, 2, 3...)
+        y=alt.Y('Pontuação Acumulada:Q', title='Pontuação Acumulada'),
+        color=alt.Color('Time:N', title='Time / Jogador'),
+        tooltip=['Time', 'Rodada', 'Pontuação Acumulada']
+    ).properties(
+        height=400,
+        title="Evolução da Pontuação Acumulada"
+    ).interactive() # O .interactive() permite dar zoom e arrastar o gráfico com o mouse!
+    
+    st.altair_chart(grafico_evolucao, use_container_width=True)
 
 except Exception as e:
     st.error(f"Erro ao buscar os dados: {e}")

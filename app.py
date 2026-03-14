@@ -106,7 +106,7 @@ try:
 
     # Ajusta o índice para servir como "Posição" no campeonato (começando do 1)
     df_exibicao.index = df_exibicao.index + 1
-    df_exibicao.index.name = "Posição"
+    df_exibicao.index.name = "Pos"
 
     df_exibicao = df_exibicao.rename(columns={
         'time': 'Time', 

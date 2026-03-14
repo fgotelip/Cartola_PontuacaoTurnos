@@ -32,7 +32,7 @@ def carregar_dados():
                         pontos -= atleta.pontos * 0.5
                 
                 # Calcula a qual turno essa rodada pertence (considerando 7 rodadas por turno)
-                turno = ((rodada - 1) // 7) + 1
+                turno = ((rodada - 1) // 2) + 1
                 
                 dados_rodadas.append({
                     "Time": time.info.slug,

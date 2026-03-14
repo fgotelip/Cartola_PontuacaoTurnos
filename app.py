@@ -102,7 +102,7 @@ try:
     pontuacao_lider = df_exibicao['pontuacao'].iloc[0]
     
     # Cria a nova coluna subtraindo a pontuação de cada time da pontuação do líder
-    df_exibicao['diferença_lider'] = +(pontuacao_lider - df_exibicao['pontuacao']).round(2)
+    df_exibicao['diferença_lider'] = "+" + (pontuacao_lider - df_exibicao['pontuacao']).round(2)
 
     # Ajusta o índice para servir como "Posição" no campeonato (começando do 1)
     df_exibicao.index = df_exibicao.index + 1

@@ -108,8 +108,8 @@ try:
 
         # Cria o Gráfico Altair
         grafico_evolucao = alt.Chart(df_grafico).mark_line(point=True).encode(
-            x=alt.Y('Rodada:O', title='Rodada'), 
-            y=alt.X('Pontuação Acumulada:Q', title='Pontuação Acumulada', scale=alt.Scale(zero=False)),
+            y=alt.Y('Rodada:O', title='Rodada'), 
+            x=alt.X('Pontuação Acumulada:Q', title='Pontuação Acumulada', scale=alt.Scale(zero=False)),
             color=alt.Color('Time:N', title='Time'),
             # No tooltip, adicionei também a pontuação que ele fez só naquela rodada específica!
             tooltip=['Time', 'Rodada', 'Pontuação Acumulada', alt.Tooltip('Pontos:Q', title='Pontos na Rodada')]

@@ -114,7 +114,12 @@ try:
         y=alt.Y('time:N', sort='-x', title='Time'), 
         color=alt.Color('time:N', legend=None),
         # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=['Posição', 'time', 'pontuacao', 'diferença_lider']
+        tooltip=[
+            alt.Tooltip('Posição:O', title='Posição'),
+            alt.Tooltip('time:N', title='Time'),
+            alt.Tooltip('pontuacao:Q', title='Pontuação'),
+            alt.Tooltip('diferença_lider:Q', title='Diferença para o Líder')
+        ]
     ).properties(height=400)
     
     st.altair_chart(grafico, use_container_width=True)

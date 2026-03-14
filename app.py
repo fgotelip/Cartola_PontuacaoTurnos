@@ -102,7 +102,7 @@ try:
     pontuacao_lider = df_exibicao['pontuacao'].iloc[0]
     
     # Cria a nova coluna subtraindo a pontuação de cada time da pontuação do líder
-    df_exibicao['diferença_lider'] = (pontuacao_lider - df_exibicao['pontuacao']).round(2)
+    df_exibicao['diferença_lider'] = -(pontuacao_lider - df_exibicao['pontuacao']).round(2)
 
     # Ajusta o índice para servir como "Posição" no campeonato (começando do 1)
     df_exibicao.index = df_exibicao.index + 1
@@ -110,8 +110,8 @@ try:
 
     df_exibicao = df_exibicao.rename(columns={
         'time': 'Time', 
-        'pontuacao': 'Pontuação',
-        'diferença_lider': 'Diferença para o Líder' # Ajuste aqui se a sua coluna se chamar 'diferença pro líder'
+        'pontuacao': 'P',
+        'diferença_lider': 'Dif' # Ajuste aqui se a sua coluna se chamar 'diferença pro líder'
     })
 
     
@@ -122,11 +122,11 @@ try:
 
     # 2. Mostrar Gráfico de Barras ordenado
     grafico = alt.Chart(df_exibicao.reset_index()).mark_bar().encode(
-        x=alt.X('Pontuação:Q', title='Pontuação'),
+        x=alt.X('P:Q', title='Pontuação'),
         y=alt.Y('Time:N', sort='-x', title='Time'), 
         color=alt.Color('Time:N', legend=None),
         # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=['Posição', 'Time', 'Pontuação', 'Diferença para o Líder']
+        tooltip=['Pos', 'Time', 'P', 'Dif']
     ).properties(height=400)
     
     st.altair_chart(grafico, use_container_width=True)

@@ -126,7 +126,14 @@ try:
 
     # 2. Mostrar Tabela de Classificação
     st.write("📋 **Tabela de Classificação**")
-    st.dataframe(df_exibicao, use_container_width=True)
+
+    df_tabela = df_exibicao.rename(columns={
+        'time': 'Time', 
+        'pontuacao': 'Pontuação',
+        'diferença_lider': 'Diferença para o Líder' # Ajuste aqui se a sua coluna se chamar 'diferença pro líder'
+    })
+
+    st.dataframe(df_tabela, use_container_width=True)
 
 except Exception as e:
     st.error(f"Erro ao buscar os dados: {e}")

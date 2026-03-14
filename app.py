@@ -108,18 +108,19 @@ try:
     df_exibicao.index = df_exibicao.index + 1
     df_exibicao.index.name = "Posição"
 
+    df_exibicao = df_exibicao.rename(columns={
+        'time': 'Time', 
+        'pontuacao': 'Pontuação',
+        'diferença_lider': 'Diferença para o Líder' # Ajuste aqui se a sua coluna se chamar 'diferença pro líder'
+    })
+
     # 1. Mostrar Gráfico de Barras ordenado
     grafico = alt.Chart(df_exibicao.reset_index()).mark_bar().encode(
-        x=alt.X('pontuacao:Q', title='Pontuação'),
-        y=alt.Y('time:N', sort='-x', title='Time'), 
-        color=alt.Color('time:N', legend=None),
+        x=alt.X('Pontuação:Q', title='Pontuação'),
+        y=alt.Y('Time:N', sort='-x', title='Time'), 
+        color=alt.Color('Time:N', legend=None),
         # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=[
-            alt.Tooltip('Posição:O', title='Posição'),
-            alt.Tooltip('time:N', title='Time'),
-            alt.Tooltip('pontuacao:Q', title='Pontuação'),
-            alt.Tooltip('diferença_lider:Q', title='Diferença para o Líder')
-        ]
+        tooltip=['Posição', 'Time', 'Pontuação', 'Diferença para o Líder']
     ).properties(height=400)
     
     st.altair_chart(grafico, use_container_width=True)
@@ -127,13 +128,7 @@ try:
     # 2. Mostrar Tabela de Classificação
     st.write("📋 **Tabela de Classificação**")
 
-    df_tabela = df_exibicao.rename(columns={
-        'time': 'Time', 
-        'pontuacao': 'Pontuação',
-        'diferença_lider': 'Diferença para o Líder' # Ajuste aqui se a sua coluna se chamar 'diferença pro líder'
-    })
-
-    st.dataframe(df_tabela, use_container_width=True)
+    st.dataframe(df_exibicao, use_container_width=True)
 
 except Exception as e:
     st.error(f"Erro ao buscar os dados: {e}")

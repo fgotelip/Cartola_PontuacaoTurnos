@@ -78,9 +78,6 @@ try:
 
     st.success(f"Dados carregados! Rodada Atual: **{rodada_atual}**")
 
-
-    st.subheader(f"Turno Atual: Rodada {rodada_atual_turno} de 7 - restam {7-rodada_atual_turno} rodadas")
-
     # Caixa de seleção para o usuário escolher
     turno_selecionado = st.selectbox("Selecione o Turno para visualizar", options=opcoes_filtro)
 
@@ -91,6 +88,7 @@ try:
         df_exibicao = df_turnos.groupby('time', as_index=False)['pontuacao'].sum()
     else:
         st.subheader(f"📊 Classificação - Turno {turno_selecionado}")
+        st.subheader(f"Rodada {rodada_atual_turno} de 7 - restam {7-rodada_atual_turno} rodadas")
         # Filtra o DataFrame apenas para o turno escolhido
         df_exibicao = df_turnos[df_turnos['turno'] == turno_selecionado]
         

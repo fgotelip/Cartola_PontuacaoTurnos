@@ -76,9 +76,10 @@ try:
 
     rodada_atual_turno = rodada_atual - turnos[turno_atual-1][0]
 
-    st.success(f"Dados carregados! Turno Atual: **{turno_atual}**")
+    st.success(f"Dados carregados! Rodada Atual: **{rodada_atual}**")
 
-    st.subheader(f"Rodada {rodada_atual_turno} de 7")
+
+    st.subheader(f"Turno Atual: {turno_atual} \nRodada {rodada_atual_turno} de 7")
 
     # Caixa de seleção para o usuário escolher
     turno_selecionado = st.selectbox("Selecione o Turno para visualizar", options=opcoes_filtro)

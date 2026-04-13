@@ -88,7 +88,8 @@ try:
         df_exibicao = df_turnos.groupby('time', as_index=False)['pontuacao'].sum()
     else:
         st.subheader(f"📊 Classificação - Turno {turno_selecionado}")
-        st.subheader(f"Rodada {rodada_atual_turno} de 7 - restam {7-rodada_atual_turno} rodadas")
+        if turno_selecionado == turno_atual:
+            st.subheader(f"Rodada {rodada_atual_turno} de 7 - restam {7-rodada_atual_turno} rodadas")
         # Filtra o DataFrame apenas para o turno escolhido
         df_exibicao = df_turnos[df_turnos['turno'] == turno_selecionado]
         

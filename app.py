@@ -51,30 +51,35 @@ def carregar_dados():
                 break
             gera_pontuacao_turno(id_times,num_turno,pontuacoes_por_turno,turno[0],turno[1])
             num_turno+=1
-        return pontuacoes_por_turno
+        return pontuacoes_por_turno,turnos
 
     id_times = [29674391,14156535,12039729,25577506,25330326,49127596,8812795,24326206]
     rodada_atual = cartola.mercado().rodada_atual
     qtd_rodadas = 38
     qtd_rodadas_por_turno = 7
 
-    pontuacoes = gera_pontuacoes_por_turno(id_times,rodada_atual,qtd_rodadas,qtd_rodadas_por_turno)
+    pontuacoes,turnos = gera_pontuacoes_por_turno(id_times,rodada_atual,qtd_rodadas,qtd_rodadas_por_turno)
     df = pd.DataFrame(pontuacoes)
-    return df, rodada_atual
+    return df, rodada_atual,turnos
 
 # --- Início da Interface ---
 st.write("Buscando os dados mais recentes na API do Cartola...")
 
 try:
     with st.spinner('Calculando pontuações. Isso pode levar alguns segundos...'):
-        df_turnos, rodada_atual = carregar_dados()
-    
-    st.success(f"Dados carregados! Rodada Atual: **{rodada_atual}**")
+        df_turnos, rodada_atual,turnos = carregar_dados()
 
     # Criando as opções de turno e adicionando a opção "Geral"
     lista_turnos = df_turnos['turno'].unique().tolist()
     opcoes_filtro = ["Geral"] + lista_turnos
-    
+    turno_atual = lista_turnos[-1]
+
+    rodada_atual_turno = rodada_atual - turnos[turno_atual-1][0]
+
+    st.success(f"Dados carregados! Turno Atual: **{turno_atual}**")
+
+    st.spinner(f"Rodada {rodada_atual_turno} de 5")
+
     # Caixa de seleção para o usuário escolher
     turno_selecionado = st.selectbox("Selecione o Turno para visualizar", options=opcoes_filtro)
 
@@ -119,17 +124,6 @@ try:
     st.write("📋 **Tabela de Classificação**")
 
     st.dataframe(df_exibicao, use_container_width=True)
-
-    # 2. Mostrar Gráfico de Barras ordenado
-    grafico = alt.Chart(df_exibicao.reset_index()).mark_bar().encode(
-        x=alt.X('P:Q', title='Pontuação'),
-        y=alt.Y('Time:N', sort='-x', title='Time'), 
-        color=alt.Color('Time:N', legend=None),
-        # Adicionei a 'diferença pro líder' no tooltip do gráfico também!
-        tooltip=['Pos', 'Time', 'P', 'Dif Líder']
-    ).properties(height=400)
-    
-    st.altair_chart(grafico, use_container_width=True)
 
 except Exception as e:
     st.error(f"Erro ao buscar os dados: {e}")

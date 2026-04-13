@@ -78,7 +78,7 @@ try:
 
     st.success(f"Dados carregados! Turno Atual: **{turno_atual}**")
 
-    st.spinner(f"Rodada {rodada_atual_turno} de 5")
+    st.write(f"Rodada {rodada_atual_turno} de 7")
 
     # Caixa de seleção para o usuário escolher
     turno_selecionado = st.selectbox("Selecione o Turno para visualizar", options=opcoes_filtro)

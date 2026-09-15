@@ -1,0 +1,13 @@
+on:
+schedule:
+- cron: "0 10 * * *" # 10:00 UTC (Manhã)
+- cron: "0 22 * * *" # 22:00 UTC (Noite)
+workflow_dispatch: # Permite rodar manualmente se quiser
+
+jobs:
+ping:
+runs-on: ubuntu-latest
+steps:
+- name: Ping App
+# ATENÇÃO: TROQUE A URL ABAIXO PELA URL REAL DO SEU APLICATIVO STREAMLIT
+run: curl -s -o /dev/null -w "%{http_code}" https://cartolaturnos.streamlit.app/

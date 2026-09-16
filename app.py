@@ -10,7 +10,7 @@ st.title("🏆 AT NIGHT'S LEAGUE - TURNOS")
 
 # O st.cache_data evita que o app fique consultando a API a cada clique, guardando os dados por 1 hora.
 # O botão "Atualizar" no final do app limpa esse cache e força a busca de novos dados.
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl="7d")
 def carregar_dados():
     cartola = cartolafc.Api()
 
